@@ -1,0 +1,14 @@
+approval_policy = "on-request"
+approvals_reviewer = "auto_review"
+default_permissions = "codex-setup"
+web_search = "live"
+
+[memories]
+generate_memories = false
+use_memories = false
+
+[permissions.codex-setup]
+extends = ":workspace"
+
+[permissions.codex-setup.network]
+enabled = true
