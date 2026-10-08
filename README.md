@@ -4,7 +4,7 @@ Codex 的个人工作约定、文件回收与 Git 备份配置。网络和工具
 
 将仓库交给 Codex：
 
-> 按 README 配置本机 Codex，保留现有模型、登录、插件与桌面设置，完成安装和验证。
+> 按 README 配置本机 Codex，保留 Codex 管理的运行时内容，完成安装和验证。
 
 ## 配置本机
 
@@ -13,19 +13,19 @@ Codex 的个人工作约定、文件回收与 Git 备份配置。网络和工具
 Agent 按以下步骤配置：
 
 1. 检查 `CODEX_HOME`，未设置时使用 `~/.codex`。读取现有配置，确认全局指令与 hook 的合并方式。
-2. 运行安装预览，核对发现的缓存路径，再安装。安装器只更新全局 AGENTS.md、专用 hook 目录、hooks.json 和独立 profile。现有文件替换前保存到回收目录。
-3. 检查本机 `config.toml` 是否含旧的 `sandbox_mode` 或 `sandbox_workspace_write`。使用本 profile 时移除这些冲突项，保留模型、认证、MCP、插件和桌面偏好。核对手动窗口与压缩阈值是否仍适合当前模型；本仓库采用模型默认值。
-4. 在新会话选择 `codex-setup` profile，检查 `/hooks`，由用户审核并信任新定义。测试联网、工具运行、回收恢复和 Git 备份，报告实际结果。
+2. 运行安装预览，核对发现的缓存路径，再安装。安装器替换全局 AGENTS.md、config.toml 与 hooks.json，安装专用 hook 目录，现有内容替换前保存到回收目录。
+3. config.toml 使用仓库模板和本机缓存路径，保留 node_repl、插件、marketplace、通知和运行时环境配置。旧的桌面偏好、引导状态、trust 记录、文档 MCP、窗口覆盖和命令放行记录退役。模型采用 gpt-6.1-sol 与 medium，其他可用模型可按需调整。
+4. 在新会话检查 `/hooks`，由用户审核并信任新定义。测试联网、工具运行、回收恢复和 Git 备份，报告实际结果。
 
 ```powershell
 python Hooks/setup.py --replace
 python Hooks/setup.py --replace --apply --schedule-cleanup
-codex --profile codex-setup
+codex
 ```
 
 Linux 与 macOS 安装时省略 `--schedule-cleanup`。自定义安装目录使用 `--target`。本机数据目录可用 `CODEX_SETUP_STATE` 指定，需在 Codex 和清理任务中使用相同路径。
 
-根目录 `config.toml` 是共享配置模板。安装器据此生成 `~/.codex/codex-setup.config.toml`，加入本机缓存和回收目录的写权限。Windows 配置 elevated sandbox。模型、推理强度和服务档位继承本机设置。
+根目录 `config.toml` 是共享配置模板。安装器据此生成本机 `~/.codex/config.toml`，加入缓存和回收目录的写权限。Windows 配置 elevated sandbox。认证文件、系统 Skills、插件文件和会话数据保持原样。
 
 permission profiles 当前为 beta，managed 环境可能覆盖用户权限。验证应在重新启动的目标会话中完成。[权限配置](https://learn.chatgpt.com/docs/permissions)
 
